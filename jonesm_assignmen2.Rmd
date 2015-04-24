@@ -20,3 +20,11 @@ M1 <- coxph(formula = Surv(time = survt, event = status) ~ clinic + prison + dos
 
 summary(M1)
 ```
+
+# Question 2
+Perform a regression analysis for the model M1 and provide a discussion of the results. Remark: Follow the 
+instructions given in Tutorial 8.
+
+***
+
+<!-- TODO: Find / Ask for Tutorial 8 -->
