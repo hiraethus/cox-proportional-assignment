@@ -1,0 +1,22 @@
+---
+title: "Statistical Learning Assignment 2"
+author: "Michael J Jones"
+date: "24/04/2015"
+output: pdf_document
+---
+
+# Question 1
+Define a Cox Proportional Hazard Model (M1) for the covariates: clinic, prison, dose.
+
+***
+
+```{r}
+library(survival)
+
+load("addicts.rda")
+
+M1 <- coxph(formula = Surv(time = survt, event = status) ~ clinic + prison + dose,
+            data = dat)
+
+summary(M1)
+```
