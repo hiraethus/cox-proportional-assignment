@@ -28,3 +28,27 @@ instructions given in Tutorial 8.
 ***
 
 <!-- TODO: Find / Ask for Tutorial 8 -->
+
+# Question 3
+
+## Part A
+Check the proportional hazard assumption of M1 and adjust the model if necessary
+
+***
+
+There are at least two methods for making sure that our model (M1) conforms to the *proportional hazard assumption*.
+The proportional hazard assumption...etc...discuss simple and hard way
+
+### Simple way
+```{r}
+library(GGally)
+
+ggsurv(survfit(formula = Surv(time = survt, event = status) ~ clinic,
+            data = dat))
+
+ggsurv(survfit(formula = Surv(time = survt, event = status) ~ prison,
+            data = dat))
+
+ggsurv(survfit(formula = Surv(time = survt, event = status) ~ dose,
+            data = dat))
+```
