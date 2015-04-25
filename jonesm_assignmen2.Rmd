@@ -14,9 +14,9 @@ Define a Cox Proportional Hazard Model (M1) for the covariates: clinic, prison, 
 library(survival)
 
 load("addicts.rda")
+attach(dat)
 
-M1 <- coxph(formula = Surv(time = survt, event = status) ~ clinic + prison + dose,
-            data = dat)
+M1 <- coxph(formula = Surv(time = survt, event = status) ~ clinic + prison + dose)
 
 summary(M1)
 ```
@@ -27,7 +27,60 @@ instructions given in Tutorial 8.
 
 ***
 
-<!-- TODO: Find / Ask for Tutorial 8 -->
+In our regression analysis, we're going to use binomial logistic regression. This model is useful when our 
+dependent variable is restricted to the values 1 and 0. In our case, our dependent variable is whether a patient 
+drops out a clinic or not. In our data, this is encoded as the value (1) if the patient drops out of the clinic and 
+(0) if they do not. In other words, logistic regression is useful when our dependent variable is binary and our 
+explanatory variables are either continuous or categorical.
+
+To perform this a logistic regression in R, we must use the `stats::glm` function and ensure we use the 
+`family = binomial()` argument.
+
+```{r}
+binary.linear.regression <- glm(status ~ clinic + prison + dose, family = binomial())
+summary(binary.linear.regression)
+```
+
+Looking at the summary table above, we can observe the coefficients of the explanatory variables (also known as the 
+predictor variables). The coefficients determine to what degree each of the explanatory variables contribute to the 
+value of the dependent variables.
+
+Firstly, considering the coefficient for which clinic the patient went to shows that the value is negatively correlated 
+with whether a patient will drop out of a clinic. We can see that there are two clinics:
+
+```{r}
+unique(dat$clinic)
+```
+
+This model implies that *Clinic 1* is more likely to have patients dropping out than *Clinic 2*. We can actually verify 
+this by looking at the data for Clinic 1 and Clinic 2:
+
+```{r}
+dat.clinic1 <- dat[dat$clinic == 1,]
+dat.clinic2 <- dat[dat$clinic == 2,]
+
+table(dat.clinic1$status)
+table(dat.clinic2$status)
+```
+
+Clinic 1 has a much higher dropout rate than Clinic 2. We can also see that this coefficient has a highly significant 
+p value of 4.28e-04, meaning that it we have a very strong case to refute the null hypothesis that clinic doesn't 
+contribute to our outcome that a patient will drop out of a clinic.
+
+The coefficient for whether a patient has been to *Prison* implies that there is a very small negative correlation between 
+having been to prison and dropping out of a clinic. This implies that those which have been to prison have a marginally 
+lower chance of dropping out of the clinic. However, when we look at the p value for this coefficient, we can see plainly 
+that, given this sample, we are unable to refute the null hypothesis. In other words, it appears that having been in 
+prison probably doesn't contribute to whether a patient is likely to drop out of a clinic or not.
+
+Unlike clinic and prison, the *dose* of methadone given to a patient is interesting in that it is a continuous 
+variable as opposed to being categorical. The correlation of the regression with dose is -0.02630, indicating that 
+a higher dose is negatively correlated with a patient dropping out of the clinic.
+
+In summary then, observing the results of our linear regression, we can say that it is highly likely that a patient's 
+risk of dropping out decreased when they go to Clinic 1 instead of Clinic 2 and two and if they are prescribed a higher 
+dosage of methadone. However, it is very unlikely that the risk of a patient dropping out of a clinic is affected given 
+they have been to prison or not.
 
 # Question 3
 
