@@ -12,6 +12,7 @@ Define a Cox Proportional Hazard Model (M1) for the covariates: clinic, prison, 
 
 ```{r}
 library(survival)
+library(knitr)
 
 load("addicts.rda")
 attach(dat)
@@ -40,6 +41,15 @@ To perform this a logistic regression in R, we must use the `stats::glm` functio
 binary.linear.regression <- glm(status ~ clinic + prison + dose, family = binomial())
 summary(binary.linear.regression)
 ```
+
+<!--
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  4.22797    0.78182   5.408 6.38e-08 ***
+clinic      -1.54175    0.30493  -5.056 4.28e-07 ***
+prison      -0.04155    0.29257  -0.142   0.8871    
+dose        -0.02630    0.01048  -2.509   0.0121 *  
+-->
 
 Looking at the summary table above, we can observe the coefficients of the explanatory variables (also known as the 
 predictor variables). The coefficients determine to what degree each of the explanatory variables contribute to the 
@@ -89,7 +99,32 @@ Check the proportional hazard assumption of M1 and adjust the model if necessary
 
 ***
 
-R provides a way for us to calculate the proportional hazard assumption using `cox.zph`.
+R provides a way for us to calculate the proportional hazard assumption using `cox.zph`. This function allows us to 
+measure proportionality with regard to log(time).
+
+```{r}
+proportionality.test <- cox.zph(fit = M1, transform = "log")
+knitr::kable(proportionality.test$table)
+```
+
+<!--
+|       |        rho|      chisq|         p|
+|:------|----------:|----------:|---------:|
+|clinic | -0.2140030|  7.7056532| 0.0055048|
+|prison | -0.0462436|  0.3218268| 0.5705119|
+|dose   |  0.1260549|  2.1238151| 0.1450249|
+|GLOBAL |         NA| 10.4499011| 0.0151046|
+-->
+
+In the first column of the results table, we can see `rho`, which is the Pearson product-moment correlation 
+between the scaled Schoenfeld residual and log(time) for each covariate.
+
+The other column of interest to us is the right-most p-value column which shows the p-value given a null hypothesis 
+that the proportionality violation has been violated. In other words, if the p-value of this column is *less than* 0.05, 
+then we must refute the null hypothesis and assume that this particular covariate does in fact violate the proportionality 
+assumption.
+
+
 
 <!-- TODO coxph.zph -->
 
