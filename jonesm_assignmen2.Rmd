@@ -89,21 +89,25 @@ Check the proportional hazard assumption of M1 and adjust the model if necessary
 
 ***
 
+R provides a way for us to calculate the proportional hazard assumption using `cox.zph`.
+
+<!-- TODO coxph.zph -->
+
+## Part B
+Visualize and discuss the Schoenfeld residues for the covariates.
+
+***
+
 Cox's proportional hazards assumes that there is a constant relationship between dependent variables and the explanatory 
 variable. This means that the hazard function for any two individuals at any time are proportional. If the model assumes 
 this then we need to test this assumption.
 
+### Kaplan-Meier curves
 There are a number of methods for confirming that our model (M1) conforms to the *proportional hazards assumption*. A simple, 
 graphical way for doing this is to plot Kaplan-Meier curves for the survival function of each explanatory variable against
-survival time of indiviudals. If the lines cross then it is most probable that the two are not proportional, thereby 
-violating the proportional hazards assumption.
+survival time of individuals. If the lines cross for different values of our explanatory variables then it is most 
+probable that the two are not proportional, thereby violating the proportional hazards assumption.
 
-**Note:** The Kaplan-Meier curve method of testing the proportional hazards assumption is not well suited to small data 
-datasets where, consequently, curves may overlap without the proportional haards assumption having been violated.
-
-<!-- Kaplan meier curves -->
-
-### Simple way
 ```{r}
 library(GGally)
 
@@ -117,9 +121,12 @@ ggsurv(survfit(formula = Surv(time = survt, event = status) ~ dose,
             data = dat))
 ```
 
-<!-- Plot "logarithm of negative logirhtm of estimated survivor function" (see notes) -->
+The Kaplan-Meier curve method of testing the proportional hazards assumption is not well suited to small data 
+data sets where, consequently, curves may overlap without the proportional hazards assumption having been violated.
 
-R provides a way for us to calculate the proportional hazard assumption using `cox.zph`.
+We can also see that, where there an explanatory variable has a lot of categories or is continuous (such as with *survt*), 
+the graph is particularly difficult to read.
 
-In *linear regression* we have the Residual Sum of Squares (RSS) which we can use to see how well data fits a model that 
-we have built. Analogous to this is the `-2log likelihood` 
+<!-- Plot "logarithm of negative logarithm of estimated survivor function" (see notes) -->
+
+
