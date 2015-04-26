@@ -254,3 +254,22 @@ As such, M2 suggests that, when we stratify for whether a patient has been to pr
 the amount of methadone prescribed to a patient as a contributor to their risk factor of dropping out of a clinic if they 
 have never been to prison.
 
+# Question 5
+
+`Dose` is a continuous covariate. In order to stratify on `dose` one needs to categorize the variables first.
+
+## Part A
+
+Decide if 2 or 3 categories are preferred and how to define the corresponding dose-intervals based on your 
+interpretation of the data.
+
+***
+
+## Part B
+
+Define a Cox Proportional Hazard Model (M3) for the covariate `prison` and stratify on `dose`. Provide a discussion of 
+the results
+
+***
+
+
