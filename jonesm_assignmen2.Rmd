@@ -124,9 +124,27 @@ that the proportionality violation has been violated. In other words, if the p-v
 then we must refute the null hypothesis and assume that this particular covariate does in fact violate the proportionality 
 assumption.
 
+The `GLOBAL` p-value shows that the whole model violates the proportionality assumption. To remedy this, we might remove 
+the clinic explanatory variable from our model and re-run the cox.zph command.
 
+```{r}
+M1.improved <- coxph(formula = Surv(time = survt, event = status) ~ prison + dose)
 
-<!-- TODO coxph.zph -->
+proportionality.test.improved <- cox.zph(fit = M1.improved, transform = "log")
+knitr::kable(proportionality.test.improved$table)
+```
+
+<!--
+|       |        rho|    chisq|         p|
+|:------|----------:|--------:|---------:|
+|prison | -0.1225006| 2.213461| 0.1368115|
+|dose   |  0.1074185| 1.401130| 0.2365345|
+|GLOBAL |         NA| 3.526046| 0.1715255|
+-->
+
+As you can see from the results of removing the clinic variable from M1, all explanatory variables as well as the GLOBAL 
+p-value no longer are small enough to refute the null hypothesis and thus, we can conclude that the model is unlikely to 
+refute the proportionality model.
 
 ## Part B
 Visualize and discuss the Schoenfeld residues for the covariates.
