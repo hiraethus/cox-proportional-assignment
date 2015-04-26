@@ -213,4 +213,17 @@ we can see that the scale of Beta(t) shows that it fluctuates between -0.1 and 0
 table when we used the `cox.zph` function in Part A, showing that dose had the highest p-value with the p-value for 
 clinic being far lower.
 
+## Part D
+Discuss the difference between 3 Part A and 2.
 
+***
+
+Looking at the coefficients in both in both the logistic and the Cox proportional hazards models, we can see that, with regard to explanatory variables which seem to confound the model, they both disagree. The logistic regression summary 
+points to the fact that the p-value of prison is very high at a value of 0.8871 meaning that it is highly likely that the 
+magnitude of the correlation coefficient is down to chance. If we were to use the logistic regression to model a person's 
+likelihood of dropping out of a treatment clinic, we would come to the conclusion that the prison explanatory factor should 
+be removed before creating our model.
+
+With Cox's proportional hazards model, however, we would come to the conclusion that, due to our analysis of Schoenfeld 
+residuals that we should dispense with the clinic explanatory factor from its model due to the fact that it would make our 
+model no longer conform to the proportional hazards assumption.
