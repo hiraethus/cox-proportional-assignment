@@ -146,8 +146,8 @@ As you can see from the results of removing the clinic variable from M1, all exp
 p-value no longer are small enough to refute the null hypothesis and thus, we can conclude that the model is unlikely to 
 refute the proportionality model.
 
-## Part B
-Visualize and discuss the Schoenfeld residues for the covariates.
+## Part B and C
+Visualize and discuss the Schoenfeld residues for the covariates (and) Provide a discussion of the results.
 
 ***
 
@@ -180,6 +180,37 @@ data sets where, consequently, curves may overlap without the proportional hazar
 We can also see that, where there an explanatory variable has a lot of categories or is continuous (such as with *survt*), 
 the graph is particularly difficult to read.
 
-<!-- Plot "logarithm of negative logarithm of estimated survivor function" (see notes) -->
+### Visualising the Schoenfeld residues
+
+As we've shown, the Kaplan-Meier graphical method for evaluating whether our model conforms to the proportional hazard 
+assumption is not perfect and in cases where our explanatory variable is continuous, is impossible to interpret.
+
+The `cox.zph` function used in **Part A** of this question allows us to plot the Schoenfeld residues for each of the 
+covariates. This graphs show Beta(t) against log(time). Ideally we want to see a straight line. A slope is evidence against 
+proportionality.
+
+We will use our unimproved model, M1, to show that we can come to a similar conclusion to that of Part A.
+
+```{r}
+plot(proportionality.test[1])
+```
+
+Plotting clinic's Schoenfeld residual shows a Beta(t) that is only straight for the first 200 days. After this Beta(t) 
+quickly slopes downwards. Like in Part A, we could use this to justify removing clinic from the model.
+
+```{r}
+plot(proportionality.test[2])
+```
+
+Beta(t) over time decreases with respect to time for the prison covariate.
+
+```{r}
+plot(proportionality.test[3])
+```
+
+Finally, although the graph shows what seems to be a sharper curve for Beta(t) over time for dose than for prison, 
+we can see that the scale of Beta(t) shows that it fluctuates between -0.1 and 0.0. This is reflected in our results 
+table when we used the `cox.zph` function in Part A, showing that dose had the highest p-value with the p-value for 
+clinic being far lower.
 
 
