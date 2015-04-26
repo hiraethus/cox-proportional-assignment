@@ -227,3 +227,30 @@ be removed before creating our model.
 With Cox's proportional hazards model, however, we would come to the conclusion that, due to our analysis of Schoenfeld 
 residuals that we should dispense with the clinic explanatory factor from its model due to the fact that it would make our 
 model no longer conform to the proportional hazards assumption.
+
+# Question 4
+
+Define a Cox Proportional Hazard Model (M2) for the covariate `dose` and stratify on `prison`. Provide a discussion of
+the results.
+
+***
+
+```{r}
+M2 <- coxph(formula = Surv(time = survt, event = status) ~ dose * strata(prison))
+summary(M2)
+```
+
+Observing the model stratified by prison, we can see that, for those patients that have not been to prison (prison=0), 
+the coefficient calculated indicates that an increase in dose lower the risk of a patient dropping out over time. We also 
+see, from the p-value of 2.95e-08 that this result. This means that, from this sample, we could conclude that it is
+highly unlikely that this coefficient occurs by chance.
+
+Looking at the case where a patient *has* been to prison, we notice that the coefficient value suggests the antithesis to 
+the above. It implies that an increased dose for those who have been to jail have a marginal increased risk of dropping out 
+of a clinic over time if they have an increased dose of methadone. However, when we observe the p value for this case, the 
+p-value for this case is greater than the 5 percent threshold which means we it is likely that this is a random occurrence.
+
+As such, M2 suggests that, when we stratify for whether a patient has been to prison on dose, it is only useful to consider 
+the amount of methadone prescribed to a patient as a contributor to their risk factor of dropping out of a clinic if they 
+have never been to prison.
+
