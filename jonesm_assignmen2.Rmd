@@ -309,17 +309,17 @@ summary(M3)
 ```
 
 For the case where a patient has been to prison and had the lowest category of dose `(20,55]`, we find that the 
-Cox proportional model suggests from the coefficient value that going to prison lowers one's risk of dropping out of a 
+Cox proportional model suggests from the hazard ratio value that going to prison lowers one's risk of dropping out of a 
 clinic. However, the p-value of 0.956, above the 0.05 threshold, indicates very strongly that we cannot refute the 
 null hypothesis that the model is consistent with the null distribution.
 
 Knowing a patient has been taking a dose in the range of `(55,65]`, the Cox model summary indicates that if the patient 
-has gone to prison they have an elevated risk of dropping out of the clinic. Unfortunately, like with the first 
+has gone to prison they have an elevated risk of dropping out of the clinic. The hazard ratio implies that over each unit 
+of time, the hazard increases 1.3 fold. Unfortunately, like with the first 
 dose category, this model cannot refute the null hypothesis either with a p-value of 0.401 which is higher than the 
 necessary 5% threshold.
 
-Finally, the category in which the dose is `(65,110]`, we might deduce from the coefficient that there is a higher 
-correlation with having gone to prison and dropping out of a clinic given they have this dose of methadone. The null 
+Finally, the category in which the dose is `(65,110]`, we might deduce from the hazard ratio that the hazard function doubles for each unit of time with having gone to prison. The null 
 hypothesis cannot be refuted in this case either meaning that, in all categories, we have no statistical plausibility 
 for our model to dictate whether having gone to prison is a good indicator of whether a patient will drop out of 
 prison given any of the dosage categories suggested above.
