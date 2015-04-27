@@ -265,6 +265,39 @@ interpretation of the data.
 
 ***
 
+In statistical analysis, categorisation of data can be problematic in that it can lead to a loss of power. When 
+categorisation is required, as discussed in [http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2972292/], dichotomisation of data is discouraged (in other words, splitting data into two groups). If we categorise data into two groups, it makes it 
+impossible for in our analysis to identify non-linearity in the exposure-outcome relationship. For this reason we will use 
+the minimal 3 categorisation as suggested.
+
+Using the `quantile` function in R, we can divide the data into three categories by taking the tercile values of the 
+dosage amounts
+
+```{r}
+probs <- seq(from = 0, to = 1, by = 1/3)
+tercile <- quantile(x = dose, probs = probs, na.rm=T)
+tercile
+```
+
+and take the tercile values as the boundaries to our categories. We can use the `cut` and `unique` functions in R to 
+aid the selection of the categories from this result.
+
+```{r}
+tercile.cut <- cut(x = dose, breaks = tercile)
+unique(tercile.cut)
+```
+
+We can also observe how many of the samples are in each category:
+```{r}
+plot(tercile.cut, main = "Category size of methadone dose in samples",
+     xlab = "Category", ylab = "Frequency", 
+     col = "grey")
+
+table(tercile.cut)
+```
+
+
+
 ## Part B
 
 Define a Cox Proportional Hazard Model (M3) for the covariate `prison` and stratify on `dose`. Provide a discussion of 
