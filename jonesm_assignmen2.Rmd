@@ -283,20 +283,18 @@ and take the tercile values as the boundaries to our categories. We can use the 
 aid the selection of the categories from this result.
 
 ```{r}
-tercile.cut <- cut(x = dose, breaks = tercile)
-unique(tercile.cut)
+dose.category <- cut(x = dose, breaks = tercile)
+unique(dose.category)
 ```
 
 We can also observe how many of the samples are in each category:
 ```{r}
-plot(tercile.cut, main = "Category size of methadone dose in samples",
+plot(dose.category, main = "Category size of methadone dose in samples",
      xlab = "Category", ylab = "Frequency", 
      col = "grey")
 
-table(tercile.cut)
+table(dose.category)
 ```
-
-
 
 ## Part B
 
@@ -304,5 +302,10 @@ Define a Cox Proportional Hazard Model (M3) for the covariate `prison` and strat
 the results
 
 ***
+
+```{r}
+M3 <- coxph(formula = Surv(time = survt, event = status) ~ prison * strata(dose.category))
+summary(M3)
+```
 
 
