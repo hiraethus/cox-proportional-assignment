@@ -304,25 +304,48 @@ the results
 ***
 
 ```{r}
-M3 <- coxph(formula = Surv(time = survt, event = status) ~ prison * strata(dose.category))
-summary(M3)
+M3 <- coxph(formula = Surv(time = survt, event = status) ~ prison + strata(dose.category))
 ```
 
-For the case where a patient has been to prison and had the lowest category of dose `(20,55]`, we find that the 
-Cox proportional model suggests from the hazard ratio value that going to prison lowers one's risk of dropping out of a 
-clinic. However, the p-value of 0.956, above the 0.05 threshold, indicates very strongly that we cannot refute the 
-null hypothesis that the model is consistent with the null distribution.
+<!--
+coxph(formula = Surv(time = survt, event = status) ~ prison + 
+    strata(dose.category))
 
-Knowing a patient has been taking a dose in the range of `(55,65]`, the Cox model summary indicates that if the patient 
-has gone to prison they have an elevated risk of dropping out of the clinic. The hazard ratio implies that over each unit 
-of time, the hazard increases 1.3 fold. Unfortunately, like with the first 
-dose category, this model cannot refute the null hypothesis either with a p-value of 0.401 which is higher than the 
-necessary 5% threshold.
+        coef exp(coef) se(coef)    z    p
+prison 0.247      1.28    0.167 1.48 0.14
 
-Finally, the category in which the dose is `(65,110]`, we might deduce from the hazard ratio that the hazard function doubles for each unit of time with having gone to prison. The null 
-hypothesis cannot be refuted in this case either meaning that, in all categories, we have no statistical plausibility 
-for our model to dictate whether having gone to prison is a good indicator of whether a patient will drop out of 
-prison given any of the dosage categories suggested above.
+Likelihood ratio test=2.18  on 1 df, p=0.14  n= 237, number of events= 149 
+   (1 observation deleted due to missingness)
+-->
+
+```{r}
+surv.M3 <- survfit(M3)
+plot(surv.M3, col=c(1,2,4), mark.time=F, xscale=365.25, xlab="Years post sample", ylab="Survival")
+```
+
+We plot a survival curve plotted of the three Cox models for prison stratified on the three dose categories. These three 
+curves are combined to create our Cox proportional model.
+
+```{r}
+print(M3)
+```
+The result indicates that having gone to prison stratified by categories of dosage increases the risk of dropping out of 
+the clinic. The p-value for this is `0.14` however, meaning that this model does not deviate strongly enough from the null 
+distribution to be useful.
+
+Another problem with this model is the assumption that the prison adequately accounts for the survival of individuals. We 
+have already shown in Question 2's logistic regression that prison is not very good for determining whether a patient 
+will drop out of a clinic. The results of this question show that stratifying on prison does not ameliorate this situation.
+
+Finally, the three curves generated above seem to overlap, meaning that for each stratified dosage group, the hazard 
+function might not be proportional.
+
+```{r}
+plot(cox.zph(M3)[1])
+```
+
+Plotting the Schoenfeld residual helps us to compound our view of this, showing the line is not straight.
+
 
 # Running the code in this document
 This document was compiled using the `knitr` extension to R. Knitr is an implementation of the *Literate Programming* 
