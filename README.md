@@ -15,8 +15,8 @@ To run the code from this document, follow these instructions.
 
 * `addicts.rda` - Data file
 * `Assignment2.pdf` - Assignment description
-* `cox\_proportional\_assignment.Rproj` - Project file (For RStudio)
-* `jonesm\_assignmen2.pdf` - The report compiled into PDF
-* `jonesm\_assignmen2.Rmd` - The report pre compilation by `knitr`
+* `cox_proportional_assignment.Rproj` - Project file (For RStudio)
+* `jonesm_assignmen2.pdf` - The report compiled into PDF
+* `jonesm_assignmen2.Rmd` - The report pre compilation by `knitr`
 
 0 directories, 6 files
